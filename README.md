@@ -2,7 +2,7 @@
 
 Public academic project website for “How GUI Agents Fail: GraceBench for Execution Stability Diagnosis”.
 
-This repository contains the public website, manuscript, figures, and overview film only.
+This repository contains the public website, figures, and overview film only.
 Raw execution traces, local audit reports, authoring scripts, and historical recordings are not included.
 
 ## Hosting
