@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GraceBench: video-grounded execution stability diagnosis for GUI agents across 169 tasks and 10 real mobile applications.">
+  <meta property="og:title" content="How GUI Agents Fail: GraceBench for Execution Stability Diagnosis">
+  <meta property="og:description" content="169 tasks. 10 applications. 3,718 evaluated trajectories. Diagnosing deviation, looping, and recovery beyond final task success.">
+  <meta property="og:type" content="website">
+  <title>GraceBench | How GUI Agents Fail</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#abstract">Skip to content</a>
+  <main>
+    <header class="publication-header">
+      <h1>How GUI Agents Fail:<br><span>GraceBench</span> for Execution Stability Diagnosis</h1>
+      <div class="authors"><span>Ridong Zhang</span><span>Shuxian Liang<sup>†</sup></span><span>Chaoqun Wan</span><span>Zhen Huang</span><span>Xian-Sheng Hua</span></div>
+      <p class="affiliation">Institute of AI for Engineering, Tongji University</p>
+      <p class="corresponding">† Corresponding author</p>
+      <div class="resource-nav" aria-label="Research resources">
+        <a href="assets/gracebench-paper.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>
+        <a href="#results">Results</a><a href="#benchmark">Benchmark</a><a href="#citation">BibTeX</a>
+        <span class="unreleased">Code & data <small>coming soon</small></span>
+      </div>
+    </header>
+    <section class="teaser wide" id="trajectories" aria-label="GraceBench overview film">
+      <video id="research-film" controls autoplay muted playsinline loop preload="metadata" poster="assets/gracebench-film-poster.jpg?v=3" aria-label="65-second GraceBench film: benchmark coverage, audited stable and looping executions, video-to-graph evaluation, metric calculations and model comparisons">
+        <source src="assets/gracebench-film.mp4?v=3" type="video/mp4">
+        <track kind="captions" src="assets/gracebench-film.vtt?v=3" srclang="en" label="English">
+        Your browser does not support video playback. <a href="assets/gracebench-film.mp4">Download the film</a>.
+      </video>
+      <div class="film-chapters" aria-label="Video chapters"><button type="button" data-seek="0">00:00 <span>Coverage</span></button><button type="button" data-seek="8">00:08 <span>Two executions</span></button><button type="button" data-seek="23">00:23 <span>Video → graph</span></button><button type="button" data-seek="43">00:43 <span>Metric calculation</span></button><button type="button" data-seek="53">00:53 <span>Model comparison</span></button><a href="assets/gracebench-film.mp4" download>Download ↓</a></div>
+      <p class="teaser-caption"><strong>Success is not stability.</strong> Two executions of the same task reach the goal: one stops after three actions; the other repeats a six-cycle loop. Follow the recorded evidence into a task-specific graph, step-level diagnosis, and full-trajectory metrics.</p>
+      <p class="scope-line"><strong>169</strong> tasks <span>·</span> <strong>10</strong> applications <span>·</span> <strong>2,909</strong> GUI states <span>·</span> <strong>3,718</strong> evaluated trajectories</p>
+      <details class="film-notes"><summary>About the video, case validation, and source recordings</summary><p>Coverage (0–8s) combines 12 recordings from ten apps. The case comparison (8–23s) shows all physical actions from two detailed-instruction Xiaohongshu-09 runs: Qwen3.8-27B (3 actions) and GPT-5.5 (15 actions). These are the same parameterized task with different live content, not a controlled head-to-head model ranking. Clips are action-centered and variably accelerated; the stable terminal frame is held. At 23s, one real loop is replayed at original speed, followed by graph alignment and calculations. The last 12 seconds animate all eleven models' detailed-instruction results from manuscript Table 2.</p><p>Every case action was visually checked against pre/post screenshots, temporal video evidence, and recorded coordinates. Both runs cover 3/3 required transitions. The unstable run has 6/15 deviations and 12/15 loop-covered actions. Its six one-step recoveries give RA=1; the stable run has no recovery opportunity, so RA is N/A. The original evaluator called the detour action “Back”; the actual click is the author entry. The film corrects that description without changing the validated state transitions or counts. The unstable agent reaches the goal at its action limit; it does not emit a clean completion signal.</p><p>Counts and metrics use the full trajectories, not edited excerpts. “ON / R” denotes an on-path action closing a recovery episode; loop membership is a separate sequence annotation. The full analysis contains 3,718 evaluated trajectories; 3,042 belong to the local video-validation population and 676 imported GUI-model records have no media. The opening montage does not imply simultaneous collection. Contact text is masked in the case footage.</p></details>
+    </section>
+    <section class="content" id="abstract"><h2>Abstract</h2><p id="abstract-text"></p></section>
+    <section class="content" id="overview">
+      <h2>Why execution stability?</h2>
+      <p>A clean execution and an unstable execution can satisfy the same semantic milestones. Final success does not tell us whether the agent took a detour, repeated actions, or recovered from a mistake. In GraceBench, <strong>51.24% of successful trajectories still contain a deviation or loop.</strong></p>
+      <figure class="figure narrow-figure"><a href="assets/gracebench_graph_diagnosis.png" data-lightbox aria-label="Enlarge the execution stability comparison"><img src="assets/gracebench_graph_diagnosis.png" width="2200" height="1238" loading="lazy" alt="Clean and unstable executions satisfy the same milestones; intermediate loops and recovery are invisible to milestone-only evaluation."></a><figcaption>Identical outcomes can hide different execution processes. GraceBench adds graph-aligned, step-level diagnosis.</figcaption></figure>
+    </section>
+    <section class="content" id="framework">
+      <h2>The GraceBench framework</h2>
+      <p>GraceBench constructs UI Transition Graphs (UTGs), curates task-specific subgraphs with alternative valid routes, and evaluates agents on physical Android devices. Synchronized action logs, screenshots, and video clips map each interaction back to the graph.</p>
+      <figure class="figure"><a href="assets/gracebench_utg_trajectory_overview.png" data-lightbox aria-label="Enlarge the framework figure"><img src="assets/gracebench_utg_trajectory_overview.png" width="2200" height="1238" loading="lazy" alt="Agent-driven UTG construction, task curation, and video-grounded trajectory evaluation in GraceBench."></a><figcaption>From application exploration to task curation and video-grounded trajectory diagnosis.</figcaption></figure>
+      <p>Alongside <strong>success rate (SR)</strong> and <strong>completion rate (CR)</strong>, the benchmark measures <strong>deviation rate (DR)</strong>, <strong>loop burden rate (LBR)</strong>, and recovery through <strong>recovery ability (RA)</strong>, <strong>recovery success rate (RSR)</strong>, and <strong>average recovery latency (ARL)</strong>.</p>
+    </section>
+    <section class="content results-content" id="results">
+      <h2>Experimental results</h2>
+      <p>Eleven models are evaluated on all 169 tasks under detailed and concise instructions, with a maximum of 15 actions per run. GPT-5.6 Sol achieves the highest success rate in both settings, but the lowest recovery ability on its observed recovery opportunities.</p>
+      <div class="result-controls" aria-label="Instruction condition"><button type="button" class="selected" data-condition="detailed" aria-pressed="true">Detailed instruction</button><button type="button" data-condition="concise" aria-pressed="false">Concise instruction</button></div>
+      <div class="table-scroll" role="region" aria-label="Model results; scroll horizontally to see all metrics" tabindex="0"><table><caption id="table-caption">Detailed instructions · 169 tasks per model</caption><thead><tr><th scope="col">Model</th><th scope="col" aria-sort="descending"><button type="button" data-sort="0">SR ↑</button></th><th scope="col"><button type="button" data-sort="1">CR ↑</button></th><th scope="col"><button type="button" data-sort="2">DR ↓</button></th><th scope="col"><button type="button" data-sort="3">LBR ↓</button></th><th scope="col"><button type="button" data-sort="4">RA ↑</button></th><th scope="col"><button type="button" data-sort="5">RSR ↑</button></th><th scope="col"><button type="button" data-sort="6">ARL ↓</button></th></tr></thead><tbody id="results-body"></tbody></table></div>
+      <p class="table-note">Best values are <strong>bold</strong>. Click a metric to sort. Rates are decimals; ARL is measured in steps. LBR is aggregated over trajectories with loops; recovery metrics are conditional on observed recovery opportunities.</p>
+      <figure class="figure"><a href="assets/complete_success_stability.png" data-lightbox aria-label="Enlarge the success and stability findings"><img src="assets/complete_success_stability.png" width="2200" height="846" loading="lazy" alt="Process-pattern proportions within successful runs and large stability differences in outcome-matched model pairs."></a><figcaption>Left: instability within successful trajectories. Right: stability differences between model pairs with matched task outcomes.</figcaption></figure>
+    </section>
+    <section class="content" id="benchmark">
+      <h2>Benchmark coverage</h2>
+      <p>The task suite spans Douyin, Dianping, Douyin Mall, Fanqie Novel, Amap, Hongguo, Qishui Music, TikTok, Toutiao, and Xiaohongshu. Ten reviewed application-level UTGs contain <strong>2,909 canonical GUI states</strong> and <strong>3,116 observed transitions</strong>.</p>
+      <figure class="figure"><a href="assets/task_domain_distribution.png" data-lightbox aria-label="Enlarge the benchmark distribution"><img src="assets/task_domain_distribution.png" width="2200" height="874" loading="lazy" alt="The 169 tasks distributed across functional domains and reference-path lengths."></a><figcaption>Task domains and reference-path lengths. Each task has a concise goal and a detailed instruction variant.</figcaption></figure>
+      <p>We plan to release task definitions, instruction variants, UTG metadata, evaluation code, metric definitions, and trace schemas. See the <a href="assets/gracebench-paper.pdf" target="_blank" rel="noopener">paper and appendix</a> for the current protocol and human expert audit.</p>
+    </section>
+    <section class="content citation" id="citation">
+      <div class="citation-heading"><h2>BibTeX</h2><button type="button" id="copy-citation">Copy</button></div>
+      <pre><code id="bibtex">@misc{zhang2026gracebench,
+  title  = {How GUI Agents Fail: GraceBench for Execution Stability Diagnosis},
+  author = {Ridong Zhang and Shuxian Liang and Chaoqun Wan and
+            Zhen Huang and Xian-Sheng Hua},
+  year   = {2026},
+  note   = {Manuscript}
+}</code></pre>
+      <p class="citation-note">Manuscript citation; publication details will be updated when available.</p>
+      <span id="copy-status" class="sr-only" role="status"></span>
+    </section>
+  </main>
+  <footer class="content">Website structure inspired by <a href="https://osworld-v1.xlang.ai/" target="_blank" rel="noopener">OSWorld</a> and <a href="https://google-research.github.io/android_world/" target="_blank" rel="noopener">AndroidWorld</a>.</footer>
+  <dialog id="figure-dialog" aria-label="Expanded paper figure"><button type="button" class="dialog-close" aria-label="Close figure">Close ×</button><img id="dialog-image" alt=""></dialog>
+</body>
+</html>
