@@ -38,6 +38,7 @@ h1 span{color:var(--blue)}
 .film-notes[open] summary:before{content:"− "}
 .film-notes summary::-webkit-details-marker{display:none}
 .film-notes p{margin-top:12px}
+.privacy-note{max-width:940px;margin:10px auto 0;padding-inline:20px;text-align:center;color:#777;font-size:12px;line-height:1.6}
 .content{max-width:1010px;padding:0 28px;margin:52px auto 0}
 h2{font-size:29px;font-weight:500;line-height:1.25;text-align:center;margin-bottom:23px;letter-spacing:-.4px}
 .content>p{text-align:justify;hyphens:auto}
